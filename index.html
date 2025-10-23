@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Motivation Calendar</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+    transition: background 1.5s ease;
+    text-align: center;
+    background: #74b9ff;
+    padding: 20px;
+  }
+
+  .calendar {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 35px 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 1s ease;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day { font-size: 1.8rem; font-weight: 600; }
+  .date { font-size: 4.5rem; font-weight: 800; line-height: 1; margin: 10px 0; }
+  .month-year { font-size: 1.2rem; opacity: 0.9; }
+
+  .greeting {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  .quote {
+    margin-top: 20px;
+    font-size: 1rem;
+    opacity: 0.85;
+    min-height: 60px;
+    font-style: italic;
+  }
+
+  /* Upcoming Festival Section */
+  .upcoming-festival {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    animation: slideUp 0.5s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .upcoming-festival h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .festival-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .festival-date {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+
+  .days-until {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .reminder-section { 
+    margin-top: 25px; 
+    text-align: left;
+  }
+  
+  .reminder-section h3 {
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .reminder-input-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .reminder-section input {
+    padding: 10px 15px;
+    flex: 1;
+    border: none;
+    border-radius: 15px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  .reminder-section input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .reminder-section button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+  }
+  
+  .reminder-section button:hover { 
+    background: rgba(255, 255, 255, 0.5); 
+    transform: scale(1.05);
+  }
+
+  ul { 
+    list-style: none; 
+    margin-top: 10px; 
+    text-align: left; 
+    padding-left: 0; 
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  li {
+    background: rgba(255, 255, 255, 0.15);
+    margin: 8px 0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  
+  .delete-reminder {
+    background: rgba(255, 100, 100, 0.7);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+  }
+  
+  .delete-reminder:hover {
+    background: rgba(255, 100, 100, 0.9);
+    transform: scale(1.1);
+  }
+
+  .nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  button.nav-btn {
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    flex: 1;
+    min-width: 80px;
+  }
+  
+  button.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.45);
+    transform: scale(1.05);
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    padding: 20px;
+  }
+
+  .modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px 30px;
+    border-radius: 20px;
+    text-align: left;
+    max-width: 500px;
+    width: 100%;
+    color: #fff;
+    animation: popIn 0.4s ease;
+    backdrop-filter: blur(10px);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .modal h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .modal ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .modal li {
+    margin: 8px 0;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    transition: 0.3s;
+    display: block;
+  }
+
+  .highlight {
+    background: rgba(0, 255, 127, 0.35);
+    box-shadow: 0 0 10px rgba(0, 255, 153, 0.5);
+    transform: scale(1.02);
+    font-weight: 600;
+  }
+
+  .close-btn {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    transition: 0.3s;
+    font-weight: 500;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 255, 255, 0.45);
+    transform: scale(1.05);
+  }
+  
+  .empty-state {
+    text-align: center;
+    opacity: 0.7;
+    font-style: italic;
+    padding: 15px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .calendar {
+      padding: 25px 20px;
+    }
+    
+    .date {
+      font-size: 3.5rem;
+    }
+    
+    .day {
+      font-size: 1.5rem;
+    }
+    
+    .reminder-input-container {
+      flex-direction: column;
+    }
+    
+    .nav-buttons {
+      gap: 8px;
+    }
+    
+    button.nav-btn {
+      font-size: 0.8rem;
+      padding: 8px 10px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="calendar">
+    <div class="day" id="dayName">Monday</div>
+    <div class="date" id="dateNumber">22</div>
+    <div class="month-year" id="monthYear">October 2025</div>
+    
+    <!-- Upcoming Festival Section -->
+    <div class="upcoming-festival" id="upcomingFestival">
+      <h3>🎉 Next Festival</h3>
+      <div class="festival-name" id="nextFestivalName">Diwali</div>
+      <div class="festival-date" id="nextFestivalDate">October 21, 2025</div>
+      <div class="days-until" id="daysUntilFestival">In 5 days</div>
+    </div>
+    
+    <div class="greeting" id="greetingText">Good Morning ☀️</div>
+    <div class="quote" id="quoteText">Loading daily inspiration...</div>
+
+    <div class="reminder-section">
+      <h3>Today's Reminders</h3>
+      <div class="reminder-input-container">
+        <input type="text" id="reminderInput" placeholder="Add a reminder..." />
+        <button id="addReminder">Add</button>
+      </div>
+      <ul id="reminderList"></ul>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevDay">◀ Prev</button>
+      <button class="nav-btn" id="todayBtn">Today</button>
+      <button class="nav-btn" id="nextDay">Next ▶</button>
+      <button class="nav-btn" id="festivalsBtn">🎉 All Festivals</button>
+    </div>
+  </div>
+
+  <!-- Festival Modal -->
+  <div class="modal" id="festivalModal">
+    <div class="modal-content">
+      <h2>🇮🇳 Indian Festivals 2025</h2>
+      <ul id="festivalList"></ul>
+      <button class="close-btn" id="closeFestival">Close</button>
+    </div>
+  </div>
+
+<script>
+  const dailyColors = [
+    "#ff9a9e","#fad0c4","#fbc2eb","#a1c4fd","#c2e9fb","#fddb92","#d4fc79",
+    "#84fab0","#fccb90","#e0c3fc","#f6d365","#fda085","#ffecd2","#a8edea",
+    "#e6dee9","#96e6a1","#89f7fe","#cfd9df","#f093fb","#f5576c","#43e97b",
+    "#30cfd0","#667eea","#764ba2","#ff758c","#ff7eb3","#a18cd1"
+  ];
+
+  const festivals = [
+    { name: "🪔 Makar Sankranti", date: "2025-01-14" },
+    { name: "🌕 Maha Shivaratri", date: "2025-02-26" },
+    { name: "🎨 Holi", date: "2025-03-14" },
+    { name: "🕌 Eid al-Fitr", date: "2025-03-31" },
+    { name: "🌸 Ram Navami", date: "2025-04-06" },
+    { name: "🙏 Hanuman Jayanti", date: "2025-04-12" },
+    { name: "☀️ Buddha Purnima", date: "2025-05-12" },
+    { name: "🌙 Eid al-Adha", date: "2025-06-07" },
+    { name: "🐍 Nag Panchami", date: "2025-07-27" },
+    { name: "🕉️ Raksha Bandhan", date: "2025-08-09" },
+    { name: "🌺 Janmashtami", date: "2025-08-16" },
+    { name: "🐘 Ganesh Chaturthi", date: "2025-08-27" },
+    { name: "🔥 Navratri Begins", date: "2025-09-22" },
+    { name: "🎆 Dussehra", date: "2025-10-02" },
+    { name: "🪔 Diwali", date: "2025-10-21" },
+    { name: "🌅 Guru Nanak Jayanti", date: "2025-11-05" },
+    { name: "🎄 Christmas", date: "2025-12-25" }
+  ];
+
+  const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  let currentDate = new Date();
+
+  function updateCalendar() {
+    const dayName = document.getElementById("dayName");
+    const dateNumber = document.getElementById("dateNumber");
+    const monthYear = document.getElementById("monthYear");
+    const greetingText = document.getElementById("greetingText");
+
+    dayName.textContent = dayNames[currentDate.getDay()];
+    dateNumber.textContent = currentDate.getDate();
+    monthYear.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+    const dayOfYear = Math.floor((currentDate - new Date(currentDate.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+    const bgColor = dailyColors[dayOfYear % dailyColors.length];
+    document.body.style.background = `linear-gradient(135deg, ${bgColor}, ${bgColor}cc)`;
+
+    // Fixed greeting logic
+    const hour = currentDate.getHours();
+    if (hour >= 5 && hour < 12) {
+      greetingText.textContent = "🌞 Today is your best day!";
+    } else if (hour >= 12 && hour < 18) {
+      greetingText.textContent = "Good Afternoon 🌤️";
+    } else if (hour >= 18 && hour < 22) {
+      greetingText.textContent = "Good Evening 🌇";
+    } else {
+      greetingText.textContent = "🌙 Tomorrow will be your best day!";
+    }
+
+    loadDailyQuote();
+    loadReminders();
+    updateUpcomingFestival();
+  }
+
+  function updateUpcomingFestival() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Find the next upcoming festival
+    const upcomingFestival = festivals.find(f => {
+      const festivalDate = new Date(f.date);
+      festivalDate.setHours(0, 0, 0, 0);
+      return festivalDate >= today;
+    });
+    
+    const festivalName = document.getElementById("nextFestivalName");
+    const festivalDate = document.getElementById("nextFestivalDate");
+    const daysUntil = document.getElementById("daysUntilFestival");
+    
+    if (upcomingFestival) {
+      const festivalDateObj = new Date(upcomingFestival.date);
+      const daysUntilFestival = Math.ceil((festivalDateObj - today) / (1000 * 60 * 60 * 24));
+      
+      festivalName.textContent = upcomingFestival.name;
+      festivalDate.textContent = festivalDateObj.toDateString();
+      
+      if (daysUntilFestival === 0) {
+        daysUntil.textContent = "Today! 🎉";
+        daysUntil.style.background = "rgba(0, 255, 127, 0.4)";
+      } else if (daysUntilFestival === 1) {
+        daysUntil.textContent = "Tomorrow!";
+        daysUntil.style.background = "rgba(255, 215, 0, 0.4)";
+      } else {
+        daysUntil.textContent = `In ${daysUntilFestival} days`;
+        daysUntil.style.background = "rgba(255, 255, 255, 0.2)";
+      }
+    } else {
+      // If no more festivals this year, show first festival of next year
+      const firstFestivalNextYear = festivals[0];
+      const nextYear = today.getFullYear() + 1;
+      const festivalDateObj = new Date(firstFestivalNextYear.date);
+      festivalDateObj.setFullYear(nextYear);
+      
+      const daysUntilFestival = Math.ceil((festivalDateObj - today) / (1000 * 60 * 60 * 24));
+      
+      festivalName.textContent = firstFestivalNextYear.name;
+      festivalDate.textContent = `${monthNames[festivalDateObj.getMonth()]} ${festivalDateObj.getDate()}, ${nextYear}`;
+      daysUntil.textContent = `In ${daysUntilFestival} days`;
+      daysUntil.style.background = "rgba(255, 255, 255, 0.2)";
+    }
+  }
+
+  async function loadDailyQuote() {
+    const quoteEl = document.getElementById("quoteText");
+    try {
+      const res = await fetch("https://api.quotable.io/random");
+      const data = await res.json();
+      quoteEl.textContent = `"${data.content}" — ${data.author}`;
+    } catch {
+      quoteEl.textContent = "Stay positive and make today amazing 🌞";
+    }
+  }
+
+  document.getElementById("prevDay").onclick = () => { 
+    currentDate.setDate(currentDate.getDate() - 1); 
+    updateCalendar(); 
+  };
+  
+  document.getElementById("nextDay").onclick = () => { 
+    currentDate.setDate(currentDate.getDate() + 1); 
+    updateCalendar(); 
+  };
+  
+  document.getElementById("todayBtn").onclick = () => { 
+    currentDate = new Date(); 
+    updateCalendar(); 
+  };
+
+  const reminderInput = document.getElementById("reminderInput");
+  const reminderList = document.getElementById("reminderList");
+
+  // Add reminder with Enter key
+  reminderInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("addReminder").click();
+    }
+  });
+
+  document.getElementById("addReminder").onclick = () => {
+    const text = reminderInput.value.trim();
+    if (!text) return;
+    
+    const reminders = JSON.parse(localStorage.getItem("reminders") || "[]");
+    reminders.push({ 
+      text, 
+      date: currentDate.toDateString(),
+      id: Date.now().toString()
+    });
+    
+    localStorage.setItem("reminders", JSON.stringify(reminders));
+    reminderInput.value = "";
+    loadReminders();
+  };
+
+  function loadReminders() {
+    const reminders = JSON.parse(localStorage.getItem("reminders") || "[]");
+    const todayReminders = reminders.filter(r => r.date === currentDate.toDateString());
+    
+    if (todayReminders.length === 0) {
+      reminderList.innerHTML = '<div class="empty-state">No reminders for today</div>';
+      return;
+    }
+    
+    reminderList.innerHTML = todayReminders.map(r => 
+      `<li>
+        <span>${r.text}</span>
+        <button class="delete-reminder" data-id="${r.id}">×</button>
+      </li>`
+    ).join("");
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-reminder').forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        deleteReminder(id);
+      });
+    });
+  }
+
+  function deleteReminder(id) {
+    let reminders = JSON.parse(localStorage.getItem("reminders") || "[]");
+    reminders = reminders.filter(r => r.id !== id);
+    localStorage.setItem("reminders", JSON.stringify(reminders));
+    loadReminders();
+  }
+
+  // 🎉 Festival Modal with Highlight
+  const modal = document.getElementById("festivalModal");
+  const list = document.getElementById("festivalList");
+  const openBtn = document.getElementById("festivalsBtn");
+  const closeBtn = document.getElementById("closeFestival");
+
+  function showFestivalList() {
+    list.innerHTML = "";
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const upcoming = festivals.find(f => {
+      const festivalDate = new Date(f.date);
+      festivalDate.setHours(0, 0, 0, 0);
+      return festivalDate >= today;
+    });
+    
+    festivals.forEach(f => {
+      const li = document.createElement("li");
+      li.textContent = `${f.name} — ${new Date(f.date).toDateString().slice(4)}`;
+      if (upcoming && f.date === upcoming.date) li.classList.add("highlight");
+      list.appendChild(li);
+    });
+  }
+
+  openBtn.onclick = () => { 
+    showFestivalList(); 
+    modal.style.display = "flex"; 
+  };
+  
+  closeBtn.onclick = () => modal.style.display = "none";
+  
+  modal.onclick = e => { 
+    if (e.target === modal) modal.style.display = "none"; 
+  };
+
+  // Initialize the calendar
+  updateCalendar();
+</script>
+</body>
+</html>
