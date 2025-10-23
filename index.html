@@ -17,22 +17,21 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    color: #fff;
-    transition: background 1.5s ease;
+    color: #333;
+    background: #ffffff;
     text-align: center;
-    background: #74b9ff;
     padding: 20px;
   }
 
   .calendar {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
+    background: #ffffff;
     padding: 35px 30px;
     border-radius: 25px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     animation: fadeIn 1s ease;
     width: 100%;
     max-width: 400px;
+    border: 1px solid #f0f0f0;
   }
 
   @keyframes fadeIn {
@@ -40,31 +39,50 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .day { font-size: 1.8rem; font-weight: 600; }
-  .date { font-size: 4.5rem; font-weight: 800; line-height: 1; margin: 10px 0; }
-  .month-year { font-size: 1.2rem; opacity: 0.9; }
+  .day { 
+    font-size: 1.8rem; 
+    font-weight: 600; 
+    color: #555;
+  }
+  
+  .date { 
+    font-size: 4.5rem; 
+    font-weight: 800; 
+    line-height: 1; 
+    margin: 10px 0; 
+    color: #222;
+  }
+  
+  .month-year { 
+    font-size: 1.2rem; 
+    color: #777;
+    margin-bottom: 10px;
+  }
 
   .greeting {
     font-size: 1.3rem;
     font-weight: 500;
     margin-top: 10px;
+    color: #444;
   }
 
   .quote {
     margin-top: 20px;
     font-size: 1rem;
-    opacity: 0.85;
+    color: #666;
     min-height: 60px;
     font-style: italic;
+    padding: 0 10px;
   }
 
   /* Upcoming Festival Section */
   .upcoming-festival {
     margin-top: 20px;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
+    background: #f8f9fa;
     border-radius: 15px;
     animation: slideUp 0.5s ease;
+    border: 1px solid #e9ecef;
   }
 
   @keyframes slideUp {
@@ -75,7 +93,7 @@
   .upcoming-festival h3 {
     font-size: 1rem;
     margin-bottom: 8px;
-    opacity: 0.9;
+    color: #555;
     font-weight: 500;
   }
 
@@ -83,21 +101,33 @@
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 5px;
+    color: #333;
   }
 
   .festival-date {
     font-size: 0.9rem;
-    opacity: 0.8;
+    color: #666;
     margin-bottom: 8px;
   }
 
   .days-until {
     display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
+    background: #e9ecef;
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 500;
+    color: #495057;
+  }
+
+  .days-until.today {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .days-until.tomorrow {
+    background: #fff3cd;
+    color: #856404;
   }
 
   .reminder-section { 
@@ -109,6 +139,7 @@
     margin-bottom: 10px;
     font-weight: 500;
     text-align: center;
+    color: #555;
   }
   
   .reminder-input-container {
@@ -120,23 +151,28 @@
   .reminder-section input {
     padding: 10px 15px;
     flex: 1;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 15px;
     outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    background: #fff;
+    color: #333;
     font-size: 0.9rem;
+    transition: border 0.3s;
+  }
+  
+  .reminder-section input:focus {
+    border-color: #74b9ff;
   }
   
   .reminder-section input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #999;
   }
   
   .reminder-section button {
     padding: 10px 15px;
     border: none;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.3);
+    background: #74b9ff;
     color: #fff;
     cursor: pointer;
     transition: 0.3s;
@@ -144,7 +180,7 @@
   }
   
   .reminder-section button:hover { 
-    background: rgba(255, 255, 255, 0.5); 
+    background: #5aa3e8; 
     transform: scale(1.05);
   }
 
@@ -158,7 +194,7 @@
   }
   
   li {
-    background: rgba(255, 255, 255, 0.15);
+    background: #f8f9fa;
     margin: 8px 0;
     padding: 10px 15px;
     border-radius: 10px;
@@ -167,6 +203,8 @@
     justify-content: space-between;
     align-items: center;
     animation: slideIn 0.3s ease;
+    border: 1px solid #e9ecef;
+    color: #333;
   }
   
   @keyframes slideIn {
@@ -175,7 +213,7 @@
   }
   
   .delete-reminder {
-    background: rgba(255, 100, 100, 0.7);
+    background: #dc3545;
     border: none;
     color: white;
     border-radius: 50%;
@@ -190,7 +228,7 @@
   }
   
   .delete-reminder:hover {
-    background: rgba(255, 100, 100, 0.9);
+    background: #c82333;
     transform: scale(1.1);
   }
 
@@ -203,9 +241,9 @@
   }
 
   button.nav-btn {
-    background: rgba(255, 255, 255, 0.25);
-    border: none;
-    color: #fff;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #495057;
     font-size: 0.9rem;
     padding: 8px 15px;
     border-radius: 20px;
@@ -216,7 +254,7 @@
   }
   
   button.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.45);
+    background: #e9ecef;
     transform: scale(1.05);
   }
 
@@ -235,15 +273,15 @@
   }
 
   .modal-content {
-    background: rgba(255, 255, 255, 0.1);
+    background: #ffffff;
     padding: 25px 30px;
     border-radius: 20px;
     text-align: left;
     max-width: 500px;
     width: 100%;
-    color: #fff;
+    color: #333;
     animation: popIn 0.4s ease;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     max-height: 80vh;
     overflow-y: auto;
   }
@@ -257,6 +295,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.5rem;
+    color: #333;
   }
 
   .modal ul {
@@ -267,22 +306,24 @@
   .modal li {
     margin: 8px 0;
     padding: 10px 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #f8f9fa;
     border-radius: 10px;
     transition: 0.3s;
     display: block;
+    border: 1px solid #e9ecef;
   }
 
   .highlight {
-    background: rgba(0, 255, 127, 0.35);
-    box-shadow: 0 0 10px rgba(0, 255, 153, 0.5);
+    background: #d4edda;
+    border-color: #c3e6cb;
     transform: scale(1.02);
     font-weight: 600;
+    color: #155724;
   }
 
   .close-btn {
     margin-top: 20px;
-    background: rgba(255, 255, 255, 0.25);
+    background: #6c757d;
     border: none;
     color: white;
     padding: 8px 16px;
@@ -295,13 +336,13 @@
   }
 
   .close-btn:hover {
-    background: rgba(255, 255, 255, 0.45);
+    background: #5a6268;
     transform: scale(1.05);
   }
   
   .empty-state {
     text-align: center;
-    opacity: 0.7;
+    color: #6c757d;
     font-style: italic;
     padding: 15px;
   }
@@ -379,13 +420,6 @@
   </div>
 
 <script>
-  const dailyColors = [
-    "#ff9a9e","#fad0c4","#fbc2eb","#a1c4fd","#c2e9fb","#fddb92","#d4fc79",
-    "#84fab0","#fccb90","#e0c3fc","#f6d365","#fda085","#ffecd2","#a8edea",
-    "#e6dee9","#96e6a1","#89f7fe","#cfd9df","#f093fb","#f5576c","#43e97b",
-    "#30cfd0","#667eea","#764ba2","#ff758c","#ff7eb3","#a18cd1"
-  ];
-
   const festivals = [
     { name: "🪔 Makar Sankranti", date: "2025-01-14" },
     { name: "🌕 Maha Shivaratri", date: "2025-02-26" },
@@ -420,10 +454,6 @@
     dayName.textContent = dayNames[currentDate.getDay()];
     dateNumber.textContent = currentDate.getDate();
     monthYear.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
-
-    const dayOfYear = Math.floor((currentDate - new Date(currentDate.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-    const bgColor = dailyColors[dayOfYear % dailyColors.length];
-    document.body.style.background = `linear-gradient(135deg, ${bgColor}, ${bgColor}cc)`;
 
     // Fixed greeting logic
     const hour = currentDate.getHours();
@@ -464,15 +494,17 @@
       festivalName.textContent = upcomingFestival.name;
       festivalDate.textContent = festivalDateObj.toDateString();
       
+      // Remove previous classes
+      daysUntil.classList.remove("today", "tomorrow");
+      
       if (daysUntilFestival === 0) {
         daysUntil.textContent = "Today! 🎉";
-        daysUntil.style.background = "rgba(0, 255, 127, 0.4)";
+        daysUntil.classList.add("today");
       } else if (daysUntilFestival === 1) {
         daysUntil.textContent = "Tomorrow!";
-        daysUntil.style.background = "rgba(255, 215, 0, 0.4)";
+        daysUntil.classList.add("tomorrow");
       } else {
         daysUntil.textContent = `In ${daysUntilFestival} days`;
-        daysUntil.style.background = "rgba(255, 255, 255, 0.2)";
       }
     } else {
       // If no more festivals this year, show first festival of next year
@@ -486,7 +518,9 @@
       festivalName.textContent = firstFestivalNextYear.name;
       festivalDate.textContent = `${monthNames[festivalDateObj.getMonth()]} ${festivalDateObj.getDate()}, ${nextYear}`;
       daysUntil.textContent = `In ${daysUntilFestival} days`;
-      daysUntil.style.background = "rgba(255, 255, 255, 0.2)";
+      
+      // Remove previous classes
+      daysUntil.classList.remove("today", "tomorrow");
     }
   }
 
